@@ -31,15 +31,15 @@ where the interface is expected.
 Usage Examples
 --------------
 ```
-result := Caser{From: LowerCamelCase, To: KebabCase}.String("someInitMethod")
+result := (&Caser{From: LowerCamelCase, To: KebabCase}).String("someInitMethod")
 // "some-init-method"
 
-result := Caser{From: LowerCamelCase,
-       To: ScreamingSnakeCase}.String("myConstantVariable")
+result := (&Caser{From: LowerCamelCase,
+       To: ScreamingSnakeCase}).String("myConstantVariable")
 // "MY_CONSTANT_VARIABLE"
 
 fromCase := c, err := Detect([]string{"Abcd", "MyVar", "ThisIsMyVar"})
-// CaseConvention{
+// &CaseConvention{
 //        JoinStyle: camelJoinStyle,
 //        SubsequentCase: strings.Title,
 //        InitialCase: strings.Title
@@ -72,6 +72,7 @@ Updates
 
 Added implementation of `strings.replacer` interface, that allows to use it
 in any place, where the interface is expected.
+Used pointers instead of objects to avoid copying of significant size memory pieces.
 
 
 **2015-11-07**

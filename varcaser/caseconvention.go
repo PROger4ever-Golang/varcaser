@@ -12,7 +12,7 @@ type WordCase func(string) string
 // A CaseConvention is a way of writing variable names using separators and
 // casing style.
 type CaseConvention struct {
-	JoinStyle
+	*JoinStyle
 	SubsequentCase WordCase
 	InitialCase    WordCase
 	Example        string // Render the name of this case convention in itself
@@ -27,8 +27,8 @@ type JoinStyle struct {
 
 // SimpleJoinStyle creates a JoinStyle that just splits and joins by a
 // separator.
-func SimpleJoinStyle(sep string) JoinStyle {
-	return JoinStyle{
+func SimpleJoinStyle(sep string) *JoinStyle {
+	return &JoinStyle{
 		Join: func(components []string) string {
 			return strings.Join(components, sep)
 		},
@@ -40,7 +40,7 @@ func SimpleJoinStyle(sep string) JoinStyle {
 
 // JoinStyle used in CamelCase. Special casing the Split function to keep
 // acronyms together.
-var camelJoinStyle = JoinStyle{
+var camelJoinStyle = &JoinStyle{
 	Join: func(components []string) string {
 		return strings.Join(components, "")
 
@@ -95,7 +95,7 @@ var camelJoinStyle = JoinStyle{
 }
 
 // SplitWords allows CaseConvention to implement Splitter.
-func (c CaseConvention) SplitWords(s string) []string {
+func (c *CaseConvention) SplitWords(s string) []string {
 	return c.Split(s)
 }
 

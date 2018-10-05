@@ -9,7 +9,7 @@ import (
 // casing convention to another.
 type Caser struct {
 	From Splitter
-	To   CaseConvention
+	To   *CaseConvention
 	transform.NopResetter
 }
 
@@ -21,7 +21,7 @@ type Splitter interface {
 
 // String returns the representation of a variable name in this Caser's To
 // CaseConvention given a variable name in this Caser's From CaseConvention.
-func (c Caser) String(s string) string {
+func (c *Caser) String(s string) string {
 	components := []string{}
 	for i, s := range c.From.SplitWords(s) {
 		if i == 0 {
@@ -36,7 +36,7 @@ func (c Caser) String(s string) string {
 // Bytes is provided for compatibility with the Transformer interface. Since
 // Caser has no special treatment of bytes, the bytes are converted to and from
 // strings.
-func (c Caser) Bytes(b []byte) []byte {
+func (c *Caser) Bytes(b []byte) []byte {
 	return []byte(c.String(string(b)))
 }
 
