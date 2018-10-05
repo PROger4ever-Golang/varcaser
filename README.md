@@ -28,15 +28,15 @@ rendered as "AsyncHttpRequest". To preserve the original casing, use
 Usage Examples
 --------------
 ```
-result := Caser{From: LowerCamelCase, To: KebabCase}.String("someInitMethod")
+result := (&Caser{From: LowerCamelCase, To: KebabCase}).String("someInitMethod")
 // "some-init-method"
 
-result := Caser{From: LowerCamelCase,
-       To: ScreamingSnakeCase}.String("myConstantVariable")
+result := (&Caser{From: LowerCamelCase,
+       To: ScreamingSnakeCase}).String("myConstantVariable")
 // "MY_CONSTANT_VARIABLE"
 
 fromCase := c, err := Detect([]string{"Abcd", "MyVar", "ThisIsMyVar"})
-// CaseConvention{
+// &CaseConvention{
 //        JoinStyle: camelJoinStyle,
 //        SubsequentCase: strings.Title,
 //        InitialCase: strings.Title
@@ -64,6 +64,11 @@ need one that isn't provided here.
 
 Updates
 -------
+
+**2018-10-05**
+
+Used pointers instead of objects to avoid copying of significant size memory pieces.
+
 
 **2015-11-07**
 
