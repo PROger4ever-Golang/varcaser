@@ -22,7 +22,7 @@ type Detected struct {
 	Split func(string) []string
 }
 
-func (d Detected) SplitWords(s string) []string {
+func (d *Detected) SplitWords(s string) []string {
 	return d.Split(s)
 }
 
@@ -49,7 +49,7 @@ func Detect(data []string) (sp Splitter, err error) {
 		}
 	}
 
-	d := Detected{}
+	d := &Detected{}
 
 	// We have now enough information to make a determination about the
 	// separator.

@@ -33,7 +33,7 @@ func TestCamelSplitMixedUp(t *testing.T) {
 }
 
 func TestCaserSimple(t *testing.T) {
-	c := Caser{From: LowerSnakeCase, To: UpperCamelCase}
+	c := &Caser{From: LowerSnakeCase, To: UpperCamelCase}
 
 	specimen := c.String("my_int_var_20")
 	expected := "MyIntVar20"
@@ -50,7 +50,7 @@ func TestCaserLeadingUnderscoreToCamel(t *testing.T) {
 
 	// This could be supported, but for the nonce I'm going to assume YAGNI.
 
-	c := Caser{From: LowerSnakeCase, To: UpperCamelCase}
+	c := &Caser{From: LowerSnakeCase, To: UpperCamelCase}
 
 	specimen := c.String("_private_method")
 	expected := "PrivateMethod" // NOT "_PrivateMethod"
@@ -58,7 +58,7 @@ func TestCaserLeadingUnderscoreToCamel(t *testing.T) {
 }
 
 func TestCaserLeadingUnderscoreToSnake(t *testing.T) {
-	c := Caser{From: LowerSnakeCase, To: ScreamingSnakeCase}
+	c := &Caser{From: LowerSnakeCase, To: ScreamingSnakeCase}
 
 	specimen := c.String("_private_method")
 	expected := "_PRIVATE_METHOD"
@@ -66,7 +66,7 @@ func TestCaserLeadingUnderscoreToSnake(t *testing.T) {
 }
 
 func TestCaserCamelToKebab(t *testing.T) {
-	c := Caser{From: UpperCamelCase, To: KebabCase}
+	c := &Caser{From: UpperCamelCase, To: KebabCase}
 
 	specimen := c.String("SomeInitMethod")
 	expected := "some-init-method"
@@ -74,7 +74,7 @@ func TestCaserCamelToKebab(t *testing.T) {
 }
 
 func TestCaserSnakeToUpperKebab(t *testing.T) {
-	c := Caser{From: LowerSnakeCase, To: UpperKebabCase}
+	c := &Caser{From: LowerSnakeCase, To: UpperKebabCase}
 
 	specimen := c.String("some_init_method")
 	expected := "Some-Init-Method"
@@ -82,7 +82,7 @@ func TestCaserSnakeToUpperKebab(t *testing.T) {
 }
 
 func TestCaserSnakeToScreamingKebab(t *testing.T) {
-	c := Caser{From: LowerSnakeCase, To: ScreamingKebabCase}
+	c := &Caser{From: LowerSnakeCase, To: ScreamingKebabCase}
 
 	specimen := c.String("some_init_method")
 	expected := "SOME-INIT-METHOD"
@@ -91,7 +91,7 @@ func TestCaserSnakeToScreamingKebab(t *testing.T) {
 
 // AsyncHTTPRequest -> AsyncHttpRequest
 func TestCaserCamelToCamelLoseCapitals(t *testing.T) {
-	c := Caser{From: UpperCamelCase, To: UpperCamelCase}
+	c := &Caser{From: UpperCamelCase, To: UpperCamelCase}
 
 	specimen := c.String("AsyncHTTPRequest")
 	expected := "AsyncHttpRequest"
@@ -100,7 +100,7 @@ func TestCaserCamelToCamelLoseCapitals(t *testing.T) {
 
 // AsyncHTTPRequest -> AsyncHttpRequest
 func TestCaserCamelToCamelKeepCapitals(t *testing.T) {
-	c := Caser{From: UpperCamelCase, To: UpperCamelCaseKeepCaps}
+	c := &Caser{From: UpperCamelCase, To: UpperCamelCaseKeepCaps}
 
 	specimen := c.String("AsyncHTTPRequest")
 	expected := "AsyncHTTPRequest"
@@ -109,7 +109,7 @@ func TestCaserCamelToCamelKeepCapitals(t *testing.T) {
 
 // AsyncHTTPRequest -> AsyncHttpRequest
 func TestCaserCamelToHttpCase(t *testing.T) {
-	c := Caser{From: UpperCamelCase, To: HttpHeaderCase}
+	c := &Caser{From: UpperCamelCase, To: HttpHeaderCase}
 
 	specimen := c.String("AcceptEncoding")
 	expected := "Accept-Encoding"
@@ -120,14 +120,14 @@ func TestCaserLowerCamelInitialCapital(t *testing.T) {
 	// This is another tricky case. I decided that the initial Capital does
 	// NOT indicate a hidden initial separator, but that might change.
 
-	c := Caser{From: LowerCamelCase, To: KebabCase}
+	c := &Caser{From: LowerCamelCase, To: KebabCase}
 	specimen := c.String("SomeInitMethod")
 	expected := "some-init-method" // NOT "-some-init-method"
 	AssertEqual(specimen, expected, t)
 }
 
 func TestCaserIsATransformer(t *testing.T) {
-	c := transform.Transformer(Caser{From: LowerCamelCase, To: KebabCase})
+	c := transform.Transformer(&Caser{From: LowerCamelCase, To: KebabCase})
 	dst := make([]byte, 20)
 	src := [20]byte{}
 	copy(src[:], "oneMeasleyVariable")
