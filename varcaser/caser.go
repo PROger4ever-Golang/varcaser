@@ -2,6 +2,7 @@ package varcaser
 
 import (
 	"golang.org/x/text/transform"
+	"io"
 )
 
 // type Caser is a text transformer that takes converts a variable from one
@@ -50,4 +51,15 @@ func (c Caser) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error
 	}
 	nDst = copy(dst, result)
 	return
+}
+
+// Replace is provided for compatibility with the strings.replacer interface.
+func (c Caser) Replace(s string) string {
+	return c.String(s)
+}
+
+// WriteString is provided for compatibility with the strings.replacer interface. Since
+// Caser has no special treatment of bytes, resulting string is converted to bytes.
+func (c Caser) WriteString(w io.Writer, s string) (n int, err error) {
+	return w.Write([]byte(c.String(s)))
 }

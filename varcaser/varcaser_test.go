@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"golang.org/x/text/transform"
+	"strings"
 )
 
 func AssertEqual(specimen, expected interface{}, t *testing.T) {
@@ -136,4 +137,20 @@ func TestCaserIsATransformer(t *testing.T) {
 	AssertEqual(nSrc, 20, t)
 	AssertEqual(err, transform.ErrShortDst, t)
 	AssertEqual(string(dst), "one-measley-variable", t)
+}
+
+func TestCaserReplace(t *testing.T) {
+	c := Caser{From: LowerCamelCase, To: KebabCase}
+	dst := c.Replace("oneMeasleyVariable")
+	AssertEqual(dst, "one-measley-variable", t)
+}
+
+func TestCaserWriteString(t *testing.T) {
+	c := Caser{From: LowerCamelCase, To: KebabCase}
+
+	builder := &strings.Builder{}
+	nDst, err := c.WriteString(builder, "oneMeasleyVariable")
+	AssertEqual(err, nil, t)
+	AssertEqual(nDst, 20, t)
+	AssertEqual(builder.String(), "one-measley-variable", t)
 }

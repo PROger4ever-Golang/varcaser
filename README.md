@@ -22,6 +22,9 @@ as "async_http_request". In {Upper, Lower}CamelCase, that same variable will be
 rendered as "AsyncHttpRequest". To preserve the original casing, use
 {Upper, Lower}CamelCaseKeepCaps.
 
+Varcaser implements `strings.replacer` interface, that allows to use it in any place,
+where the interface is expected.
+
 **Warning**: Although varcaser.Caser implements the golang.org/x/text/transform
   interface, the Bytes() and Transform() methods have not been tested yet.
 
@@ -64,6 +67,12 @@ need one that isn't provided here.
 
 Updates
 -------
+
+**2018-10-05**
+
+Added implementation of `strings.replacer` interface, that allows to use it
+in any place, where the interface is expected.
+
 
 **2015-11-07**
 
